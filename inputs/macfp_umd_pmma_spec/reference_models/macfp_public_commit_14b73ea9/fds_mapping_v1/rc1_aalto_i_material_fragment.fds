@@ -1,0 +1,43 @@
+! G4 RC1 deterministic no-refit material fragment
+! source=materials/reference_models/macfp_public_commit_14b73ea9/MaCFP_PMMA_Aalto_I.json
+! source_sha256=ebaaa0df94cc837c2461e1c7a01e9c31528ca8c2f7e72e404f0493ea5ea7b847
+! Requires a case-level SPEC/REAC for MMA (C5H8O2).
+! Defines no geometry, boundary condition, gas tuning, or gate result.
+
+&MATL ID='G4_RC1_AALTO_A',
+      DENSITY=1150,
+      CONDUCTIVITY=0.155,
+      SPECIFIC_HEAT=1.76,
+      ABSORPTION_COEFFICIENT=3421.3,
+      EMISSIVITY=0.95,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=63900000,
+      E(1)=93800,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=983,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=1 /
+
+&MATL ID='G4_RC1_AALTO_B',
+      DENSITY=1150,
+      CONDUCTIVITY=0.155,
+      SPECIFIC_HEAT=1.76,
+      ABSORPTION_COEFFICIENT=3421.3,
+      EMISSIVITY=0.95,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=2.43e+13,
+      E(1)=188000,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=983,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=1 /

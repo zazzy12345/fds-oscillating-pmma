@@ -1,0 +1,2 @@
+# Preserve the exact distributed source/input bytes used by SHA256SUMS.txt.
+* -text

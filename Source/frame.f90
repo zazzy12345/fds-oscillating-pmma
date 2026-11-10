@@ -1,0 +1,98 @@
+!> \brief Kinematics for a single translating, non-rotating reference frame.
+!>
+!> The frame state is deliberately evaluated from one routine at every solver
+!> stage. The gas momentum equation receives +a_frame in its flux array,
+!> which produces the physical pseudo-acceleration -a_frame in the FDS
+!> velocity update.
+
+MODULE FRAME_FUNCTIONS
+
+USE PRECISION_PARAMETERS
+USE GLOBAL_CONSTANTS, ONLY: TRANSLATING_FRAME,TF_AXIS,TF_AMPLITUDE,TF_FREQUENCY,TF_PHASE,TF_T_START,TF_RAMP_TIME,&
+                            TF_LAB_VELOCITY
+
+IMPLICIT NONE (TYPE,EXTERNAL)
+PRIVATE
+
+PUBLIC GET_FRAME_KINEMATICS,GET_FRAME_VELOCITY,GET_FRAME_ACCELERATION,GET_FRAME_OPEN_TARGET
+
+CONTAINS
+
+
+!> \brief Return displacement, velocity, and acceleration of the laboratory-frame plate motion.
+!> \param T Physical simulation time (s)
+!> \param X_FRAME Frame displacement in laboratory coordinates (m)
+!> \param U_FRAME Frame velocity in laboratory coordinates (m/s)
+!> \param A_FRAME Frame acceleration in laboratory coordinates (m/s2)
+
+SUBROUTINE GET_FRAME_KINEMATICS(T,X_FRAME,U_FRAME,A_FRAME)
+
+REAL(EB), INTENT(IN) :: T
+REAL(EB), INTENT(OUT) :: X_FRAME(3),U_FRAME(3),A_FRAME(3)
+REAL(EB) :: OMEGA,THETA,T_REL,TAU,S,DS_DT,D2S_DT2
+
+X_FRAME = 0._EB
+U_FRAME = 0._EB
+A_FRAME = 0._EB
+
+IF (.NOT.TRANSLATING_FRAME) RETURN
+
+T_REL = T - TF_T_START
+IF (T_REL<0._EB) RETURN
+
+OMEGA = TWOPI*TF_FREQUENCY
+THETA = OMEGA*T_REL + TF_PHASE
+
+S = 1._EB
+DS_DT = 0._EB
+D2S_DT2 = 0._EB
+
+IF (TF_RAMP_TIME>0._EB .AND. T_REL<TF_RAMP_TIME) THEN
+   TAU = MAX(0._EB,MIN(1._EB,T_REL/TF_RAMP_TIME))
+   S = 10._EB*TAU**3 - 15._EB*TAU**4 + 6._EB*TAU**5
+   DS_DT = (30._EB*TAU**2 - 60._EB*TAU**3 + 30._EB*TAU**4)/TF_RAMP_TIME
+   D2S_DT2 = (60._EB*TAU - 180._EB*TAU**2 + 120._EB*TAU**3)/TF_RAMP_TIME**2
+ENDIF
+
+X_FRAME = TF_AXIS*TF_AMPLITUDE*S*SIN(THETA)
+U_FRAME = TF_AXIS*TF_AMPLITUDE*(DS_DT*SIN(THETA) + S*OMEGA*COS(THETA))
+A_FRAME = TF_AXIS*TF_AMPLITUDE*(D2S_DT2*SIN(THETA) + 2._EB*DS_DT*OMEGA*COS(THETA) - S*OMEGA**2*SIN(THETA))
+
+END SUBROUTINE GET_FRAME_KINEMATICS
+
+
+!> \brief Return only the laboratory-frame velocity of the translating frame.
+
+SUBROUTINE GET_FRAME_VELOCITY(T,U_FRAME)
+
+REAL(EB), INTENT(IN) :: T
+REAL(EB), INTENT(OUT) :: U_FRAME(3)
+REAL(EB) :: X_FRAME(3),A_FRAME(3)
+
+CALL GET_FRAME_KINEMATICS(T,X_FRAME,U_FRAME,A_FRAME)
+
+END SUBROUTINE GET_FRAME_VELOCITY
+
+
+!> \brief Return only the laboratory-frame acceleration of the translating frame.
+
+SUBROUTINE GET_FRAME_ACCELERATION(T,A_FRAME)
+
+REAL(EB), INTENT(IN) :: T
+REAL(EB), INTENT(OUT) :: A_FRAME(3)
+REAL(EB) :: X_FRAME(3),U_FRAME(3)
+
+CALL GET_FRAME_KINEMATICS(T,X_FRAME,U_FRAME,A_FRAME)
+
+END SUBROUTINE GET_FRAME_ACCELERATION
+
+
+SUBROUTINE GET_FRAME_OPEN_TARGET(T,OPEN_TARGET)
+REAL(EB), INTENT(IN) :: T
+REAL(EB), INTENT(OUT) :: OPEN_TARGET(3)
+REAL(EB) :: U_FRAME(3)
+CALL GET_FRAME_VELOCITY(T,U_FRAME)
+OPEN_TARGET=TF_LAB_VELOCITY-U_FRAME
+END SUBROUTINE GET_FRAME_OPEN_TARGET
+
+END MODULE FRAME_FUNCTIONS

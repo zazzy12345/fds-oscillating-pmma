@@ -1,0 +1,55 @@
+! G4 RC2 deterministic no-refit material fragment
+! source=materials/reference_models/macfp_public_commit_14b73ea9/MaCFP_PMMA_NIST-StMU.json
+! source_sha256=71ce0c4451e5ab8d23cb211fd9290d1c2533a8b9bc5a0aa4caefb481958bbbca
+! Requires a case-level SPEC/REAC for MMA (C5H8O2).
+! Defines no geometry, boundary condition, gas tuning, or gate result.
+
+&MATL ID='G4_RC2_NIST_R1',
+      DENSITY=1177,
+      CONDUCTIVITY=0.2,
+      SPECIFIC_HEAT=2.13,
+      ABSORPTION_COEFFICIENT=2620,
+      EMISSIVITY=0.963,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=581000,
+      E(1)=71300,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=1740,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=1,
+      HEAT_OF_COMBUSTION(1,1)=38200 /
+
+&MATL ID='G4_RC2_NIST_R2',
+      DENSITY=1177,
+      CONDUCTIVITY=0.2,
+      SPECIFIC_HEAT=2.13,
+      ABSORPTION_COEFFICIENT=2620,
+      EMISSIVITY=0.963,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=405000000000,
+      E(1)=168000,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=914,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=1,
+      HEAT_OF_COMBUSTION(1,1)=23200 /
+
+&MATL ID='G4_RC2_NIST_INERT',
+      DENSITY=1177,
+      CONDUCTIVITY=0.2,
+      SPECIFIC_HEAT=2.13,
+      ABSORPTION_COEFFICIENT=2620,
+      EMISSIVITY=0.963,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE. /

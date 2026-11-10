@@ -1,0 +1,66 @@
+! G4 RC0 deterministic no-refit material fragment
+! source=materials/reference_models/macfp_public_commit_14b73ea9/MaCFP_PMMA_UMD.json
+! source_sha256=07412f8722be06881d87b491d3fe1c4a52184c88bc14e14ac866fd57a0e94dee
+! Requires a case-level SPEC/REAC for MMA (C5H8O2).
+! Defines no geometry, boundary condition, gas tuning, or gate result.
+
+&MATL ID='G4_RC0_UMD_R1',
+      DENSITY=1210,
+      CONDUCTIVITY_RAMP='G4_RC0_K',
+      SPECIFIC_HEAT_RAMP='G4_RC0_CP',
+      ABSORPTION_COEFFICIENT=2870,
+      EMISSIVITY=0.96,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=4.95e+16,
+      E(1)=164000,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=5,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=0.02,
+      MATL_ID(1,1)='G4_RC0_UMD_R2',
+      NU_MATL(1,1)=0.98 /
+
+&MATL ID='G4_RC0_UMD_R2',
+      DENSITY=1210,
+      CONDUCTIVITY_RAMP='G4_RC0_K',
+      SPECIFIC_HEAT_RAMP='G4_RC0_CP',
+      ABSORPTION_COEFFICIENT=2870,
+      EMISSIVITY=0.96,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE.,
+      N_REACTIONS=1,
+      A(1)=135000000000,
+      E(1)=164000,
+      N_S(1)=1,
+      N_T(1)=0,
+      N_O2(1)=0,
+      HEAT_OF_REACTION(1)=817,
+      SPEC_ID(1,1)='MMA',
+      NU_SPEC(1,1)=0.998,
+      MATL_ID(1,1)='G4_RC0_UMD_RESIDUE',
+      NU_MATL(1,1)=0.002 /
+
+&MATL ID='G4_RC0_UMD_RESIDUE',
+      DENSITY=1210,
+      CONDUCTIVITY_RAMP='G4_RC0_K',
+      SPECIFIC_HEAT_RAMP='G4_RC0_CP',
+      ABSORPTION_COEFFICIENT=2870,
+      EMISSIVITY=0.96,
+      ALLOW_SHRINKING=.TRUE.,
+      ALLOW_SWELLING=.TRUE.,
+      ADJUST_H=.TRUE. /
+
+&RAMP ID='G4_RC0_CP', T=20, F=1.0519395 /
+&RAMP ID='G4_RC0_CP', T=116.85, F=1.8587 /
+&RAMP ID='G4_RC0_CP', T=126.85, F=2.079 /
+&RAMP ID='G4_RC0_CP', T=500, F=3.2245705 /
+&RAMP ID='G4_RC0_K', T=20, F=0.16 /
+&RAMP ID='G4_RC0_K', T=116.85, F=0.16 /
+&RAMP ID='G4_RC0_K', T=126.85, F=0.172 /
+&RAMP ID='G4_RC0_K', T=500, F=0.015277 /

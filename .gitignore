@@ -1,0 +1,19 @@
+# Generated solver files and simulation outputs
+build/
+*.o
+*.obj
+*.mod
+*.exe
+*.restart
+*.bf
+*.sf
+*.q
+*.s3d
+*.smv
+*.out
+*.err
+*_hrr.csv
+*_devc.csv
+*_mass.csv
+*_steps.csv
+__pycache__/
